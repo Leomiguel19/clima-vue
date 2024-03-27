@@ -3,10 +3,12 @@
     import Alerta from './Alerta.vue';
 
     const busqueda = reactive({
-        ciudad: '',
-        pais: '',
+        ciudad: 'Caracas',
+        pais: 'VE',
     });
     const error = ref('');
+
+    const emit = defineEmits(['obtenerClima'])
 
     const paises = [
         { codigo: 'US', nombre: 'Estados Unidos' },
@@ -25,6 +27,7 @@
             return;
         }
         error.value = '';
+        emit('obtenerClima', busqueda);
     }
 </script>
 
