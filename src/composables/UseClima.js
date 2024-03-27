@@ -5,12 +5,14 @@ export default function useClima(){
     
     const clima = ref({})
     const cargando = ref(false)
+    const error = ref('')
 
     const obtenerClima = async ({ciudad, pais}) => {
         // Importar el API KEY
         const key = import.meta.env.VITE_API_KEY;
         clima.value = {};
         cargando.value = true;
+        error.value = '';
 
         try {
             // Obtener la lat, lng
@@ -21,8 +23,9 @@ export default function useClima(){
             const urlCLima = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${key}`;
             const {data: resultado} = await axios(urlCLima);
             clima.value = resultado; 
-        } catch (error) {
-            console.log(error);
+        } catch {
+            error.value = 'Ciudad NO encontrada';
+            console.log('Hubo un error')
         }finally{
             cargando.value = false;
         }
@@ -40,5 +43,6 @@ export default function useClima(){
         mostrarClima,
         formatearTemperatura,
         cargando,
+        error,
     }
 }
